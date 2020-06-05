@@ -32,7 +32,7 @@
                         <td><?php echo $item->getProps()['author'] ?></td>
                         <td><?php echo $item->getProps()['title'] ?></td>
                         <td><?php echo $item->getProps()['genre'] ?></td>
-                        <td><?php echo $item->getProps()['normalPrice'] ?></td>
+                        <td><?php echo number_format($item->getProps()['normalPrice'], 2) ?> $</td>
                     </tr>
                 <?php } ?>
             </table>
