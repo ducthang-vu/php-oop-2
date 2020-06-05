@@ -75,7 +75,7 @@ class Warehouse {
         return $this->address;
     }
 
-    public function getInventory($category=NULL) {
+    public function getInventory() {
         return $this->inventory;
     }
 
