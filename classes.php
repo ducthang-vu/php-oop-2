@@ -18,13 +18,17 @@ class product {
         $this->review = $review;
         $this->quantity = $quantity;
     }
+
+    public function getProps() {
+        return get_object_vars($this);
+    }
 }
 
 
 class Book extends Product {
-    private $title;
-    private $genre;
-    private $author;
+    protected $title;
+    protected $genre;
+    protected $author;
 
     public function __construct($id, $category, $normalPrice, $location, $weight, $review, $quantity, $title, $genre, $author) {
         parent::__construct($id, $category, $normalPrice, $location, $weight, $review, $quantity);
@@ -36,8 +40,8 @@ class Book extends Product {
 
 
 class Table extends Product {
-    private $name;
-    private $material;
+    protected $name;
+    protected $material;
 
     public function __construct($id, $category, $normalPrice, $location, $weight, $review, $quantity, $name, $material) {
         parent::__construct($id, $category, $normalPrice, $location, $weight, $review, $quantity);
@@ -56,12 +60,29 @@ class Warehouse {
         $this->address = $address;
         foreach($products as $key => $item) {
             if ($item[0] === 'table') {
-                $inventory[] = new Table($key, ...$item);
+                $this->inventory[] = new Table($key, ...$item);
+            } elseif ($item[0] === 'book') {
+                $this->inventory[] = new Book($key, ...$item);
             }
         }
     }
 
     public function getId() {
         return $this->id;
+    }
+
+    public function getAddress() {
+        return $this->address;
+    }
+
+    public function getInventory($category=NULL) {
+        return $this->inventory;
+    }
+
+    public function getInventoryFilter($category) {
+        return array_filter($this->getInventory(),
+                            function ($item) use ($category) {
+                                return $item->getProps()['category'] === $category;
+                            });
     }
 }
